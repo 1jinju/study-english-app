@@ -107,9 +107,12 @@ const clickTranslate = () => {
     window.open(url, '_blank');
 };
 
-nextBtn.addEventListener('click', clickNext);
-translateBtn.addEventListener('click', clickTranslate);
+const init = () => {
+    showLoading();
+    getSentences();
+  
+    nextBtn.addEventListener('click', clickNext);
+    translateBtn.addEventListener('click', clickTranslate);
+};
 
-showLoading();
-getSentences();
-
+init();
