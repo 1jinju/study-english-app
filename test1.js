@@ -4,6 +4,7 @@ const translateUrl = 'https://translate.google.com/?sl=en&tl=ko&text=';
 
 const sentenceEl = document.querySelector('.sentence');
 const timerEl = document.querySelector('.timer');
+const countEl = document.querySelector('.count');
 const loading = document.querySelector('#loading');
 const box = document.querySelector('#box');
 const nextBtn = document.querySelector('.next');
@@ -52,6 +53,7 @@ const showSentence = () => {
     currentSentence = getRandomSentence(sentences);
     sentenceEl.querySelector('h2').textContent = currentSentence.ko;
     sentenceEl.querySelector('h1').textContent = '';
+    countEl.textContent = `${currentIndex + 1}/${totalSentences}`;
     startTimer();
 };
 
@@ -81,6 +83,7 @@ const showEnglish = () => {
 
 // Next 버튼을 클릭하면 다음 문장을 출력
 const clickNext = () => {
+    currentIndex = (currentIndex + 1) % totalSentences;
     showSentence();
 };
 
