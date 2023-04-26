@@ -3,6 +3,8 @@ const listUrl =
 const translateUrl = 'https://translate.google.com/?sl=en&tl=ko&text=';
 
 const sentenceEl = document.querySelector('.sentence');
+const loading = document.querySelector('#loading');
+const box = document.querySelector('#box');
 
 let timeLimit = 3000; // 문제당 제한시간 3초
 let sentences = []; // API에서 가져온 전체 문장
@@ -10,10 +12,23 @@ let totalSentences = 0; // 전체 문장 수
 let currentIndex = 0; // 현재 문장의 인덱스
 let currentSentence = ''; // 현재 문장
 
+function showLoading() {
+    loading.style.display = "block";
+    box.style.display = "none";
+}
+
+function showBox() {
+    loading.style.display = "none";
+    box.style.display = "block";
+}
+
 const getSentences = async () => {
     fetch(listUrl)
     .then((response) => response.json())
     .then((data) => {
+        // API를 가져온 후에는 box 노출
+        showBox();
+
         sentences = data;
         totalSentences = sentences.length;
         // console.log(sentences);
@@ -37,4 +52,5 @@ const showSentence = () => {
     sentenceEl.querySelector('h1').textContent = currentSentence.en; 
 };
 
+showLoading();
 getSentences();
