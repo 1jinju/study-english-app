@@ -11,6 +11,7 @@ let sentences = []; // API에서 가져온 전체 문장
 let totalSentences = 0; // 전체 문장 수
 let currentIndex = 0; // 현재 문장의 인덱스
 let currentSentence = ''; // 현재 문장
+let timerIntervalId; 
 
 function showLoading() {
     loading.style.display = "block";
@@ -49,7 +50,25 @@ const getRandomSentence = (sentences) => {
 const showSentence = () => {
     currentSentence = getRandomSentence(sentences);
     sentenceEl.querySelector('h2').textContent = currentSentence.ko;
-    sentenceEl.querySelector('h1').textContent = currentSentence.en; 
+    sentenceEl.querySelector('h1').textContent = '';
+    startTimer();
+};
+
+// 타이머를 시작하는 함수
+const startTimer = () => {
+    let timeLeft = timeLimit / 1000;
+    timerIntervalId = setInterval(() => {
+        timeLeft--;
+        if (timeLeft <= 0) {
+            clearInterval(timerIntervalId);
+            showEnglish();
+        }
+    }, 1000);
+};
+
+// 영어 문장을 보여주는 함수
+const showEnglish = () => {
+    sentenceEl.querySelector('h1').textContent = currentSentence.en;
 };
 
 showLoading();
