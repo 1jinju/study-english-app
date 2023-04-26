@@ -6,6 +6,7 @@ const sentenceEl = document.querySelector('.sentence');
 const timerEl = document.querySelector('.timer');
 const loading = document.querySelector('#loading');
 const box = document.querySelector('#box');
+const nextBtn = document.querySelector('.next');
 
 let timeLimit = 3000; // 문제당 제한시간 3초
 let sentences = []; // API에서 가져온 전체 문장
@@ -78,5 +79,13 @@ const showEnglish = () => {
     sentenceEl.querySelector('h1').textContent = currentSentence.en;
 };
 
+// Next 버튼을 클릭하면 다음 문장을 출력
+const clickNext = () => {
+    showSentence();
+};
+
+nextBtn.addEventListener('click', clickNext);
+
 showLoading();
 getSentences();
+
