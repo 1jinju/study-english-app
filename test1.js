@@ -15,6 +15,7 @@ let sentences = []; // API에서 가져온 전체 문장
 let totalSentences = 0; // 전체 문장 수
 let currentIndex = 0; // 현재 문장의 인덱스
 let currentSentence = ''; // 현재 문장
+let timerRequestId = null;
 
 function showLoading() {
     loading.style.display = "block";
@@ -62,21 +63,29 @@ const showSentence = () => {
 
 // 타이머를 시작하는 함수
 const startTimer = () => {
+    let startTime = null;
     let progress = 0;
-    const increment = 100 / (timeLimit / 16.7); // 1프레임당 증가량
 
-    const animate = () => {
-        progress += increment;
+    const animate = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const elapsedTime = timestamp - startTime;
+        progress = (elapsedTime / timeLimit) * 100;
         timerEl.style.width = `${progress}%`;
-  
+
         if (progress >= 100) {
             timerEl.style.width = '0%';
             showEnglish();
             return;
         }
-        requestAnimationFrame(animate);
+        timerRequestId = requestAnimationFrame(animate);
     };
-    requestAnimationFrame(animate);
+
+    // 이전 애니메이션 프레임 요청 취소
+    if (timerRequestId) {
+        cancelAnimationFrame(timerRequestId);
+        timerRequestId = null;
+    }
+    timerRequestId = requestAnimationFrame(animate);
 };
 
 // 영어 문장을 보여주는 함수
