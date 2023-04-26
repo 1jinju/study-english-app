@@ -8,6 +8,7 @@ const countEl = document.querySelector('.count');
 const loading = document.querySelector('#loading');
 const box = document.querySelector('#box');
 const nextBtn = document.querySelector('.next');
+const translateBtn = document.querySelector('.translate');
 
 let timeLimit = 3000; // 문제당 제한시간 3초
 let sentences = []; // API에서 가져온 전체 문장
@@ -53,6 +54,8 @@ const showSentence = () => {
     currentSentence = getRandomSentence(sentences);
     sentenceEl.querySelector('h2').textContent = currentSentence.ko;
     sentenceEl.querySelector('h1').textContent = '';
+
+    translateBtn.disabled = true;
     countEl.textContent = `${currentIndex + 1}/${totalSentences}`;
     startTimer();
 };
@@ -79,6 +82,7 @@ const startTimer = () => {
 // 영어 문장을 보여주는 함수
 const showEnglish = () => {
     sentenceEl.querySelector('h1').textContent = currentSentence.en;
+    translateBtn.disabled = false;
 };
 
 // Next 버튼을 클릭하면 다음 문장을 출력
@@ -87,7 +91,15 @@ const clickNext = () => {
     showSentence();
 };
 
+// Translate 버튼을 클릭했을 때 구글 번역 페이지로 이동하는 함수
+const clickTranslate = () => {
+    const en = encodeURIComponent(currentSentence.en);
+    const url = translateUrl +`${en}&op=translate&hl=en`;
+    window.open(url, '_blank');
+};
+
 nextBtn.addEventListener('click', clickNext);
+translateBtn.addEventListener('click', clickTranslate);
 
 showLoading();
 getSentences();
