@@ -23,7 +23,7 @@ h1 {
   top: 0px;
   left: 0px;
   height: 5px;
-  width: 48%; /* 0~100% */
+  width: 0%; /* 0~100% */
   background-color: aqua;
 }
 .loading {

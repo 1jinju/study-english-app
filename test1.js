@@ -3,6 +3,7 @@ const listUrl =
 const translateUrl = 'https://translate.google.com/?sl=en&tl=ko&text=';
 
 const sentenceEl = document.querySelector('.sentence');
+const timerEl = document.querySelector('.timer');
 const loading = document.querySelector('#loading');
 const box = document.querySelector('#box');
 
@@ -11,7 +12,6 @@ let sentences = []; // API에서 가져온 전체 문장
 let totalSentences = 0; // 전체 문장 수
 let currentIndex = 0; // 현재 문장의 인덱스
 let currentSentence = ''; // 현재 문장
-let timerIntervalId; 
 
 function showLoading() {
     loading.style.display = "block";
@@ -56,14 +56,21 @@ const showSentence = () => {
 
 // 타이머를 시작하는 함수
 const startTimer = () => {
-    let timeLeft = timeLimit / 1000;
-    timerIntervalId = setInterval(() => {
-        timeLeft--;
-        if (timeLeft <= 0) {
-            clearInterval(timerIntervalId);
+    let progress = 0;
+    const increment = 100 / (timeLimit / 16.7); // 1프레임당 증가량
+
+    const animate = () => {
+        progress += increment;
+        timerEl.style.width = `${progress}%`;
+  
+        if (progress >= 100) {
+            timerEl.style.width = '0%';
             showEnglish();
+            return;
         }
-    }, 1000);
+        requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
 };
 
 // 영어 문장을 보여주는 함수
