@@ -25,7 +25,7 @@ function showLoading() {
 
 function showBox() {
     loading.style.display = "none";
-    box.style.display = "block";
+    box.style.display = "block";  
 }
 
 const getSentences = async () => {
@@ -67,6 +67,7 @@ const showSentence = () => {
     currentSentence = getRandomSentence(sentences);
     sentenceEl.querySelector('h2').textContent = currentSentence.ko;
     sentenceEl.querySelector('h1').textContent = '';
+    sentenceEl.querySelector('h1').style = "opacity: 0";
     translateBtn.disabled = true;
     countEl.textContent = `${currentIndex + 1}/${totalSentences}`;
     startTimer();
@@ -102,6 +103,7 @@ const startTimer = () => {
 // 영어 문장을 보여주는 함수
 const showEnglish = () => {
     sentenceEl.querySelector('h1').textContent = currentSentence.en;
+    sentenceEl.querySelector('h1').style = "opacity: 1";
     translateBtn.disabled = false;
 };
 
