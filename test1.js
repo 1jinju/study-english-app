@@ -16,6 +16,7 @@ let totalSentences = 0; // 전체 문장 수
 let currentIndex = 0; // 현재 문장의 인덱스
 let currentSentence = ''; // 현재 문장
 let timerRequestId = null;
+const usedIndexes = []; // 이미 가져온 인덱스
 
 function showLoading() {
     loading.style.display = "block";
@@ -46,7 +47,18 @@ const getSentences = async () => {
 
 // 랜덤으로 문장을 가져옴
 const getRandomSentence = (sentences) => {
-    const randomIndex = Math.floor(Math.random() * totalSentences);
+    let randomIndex = Math.floor(Math.random() * totalSentences);
+
+    // 이미 사용한 인덱스인 경우, 새로운 인덱스를 뽑을 때까지 반복
+    while (usedIndexes.includes(randomIndex)) {
+        randomIndex = Math.floor(Math.random() * totalSentences);
+    }
+    usedIndexes.push(randomIndex);
+
+    if (usedIndexes.length === totalSentences) {
+        // console.log(usedIndexes);
+        usedIndexes.length = 0;
+    }
     return sentences[randomIndex];
 };
 
@@ -55,7 +67,6 @@ const showSentence = () => {
     currentSentence = getRandomSentence(sentences);
     sentenceEl.querySelector('h2').textContent = currentSentence.ko;
     sentenceEl.querySelector('h1').textContent = '';
-
     translateBtn.disabled = true;
     countEl.textContent = `${currentIndex + 1}/${totalSentences}`;
     startTimer();
